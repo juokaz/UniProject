@@ -1,0 +1,38 @@
+fun findPosts() {
+ var db = database "blog";
+ var posts = table "posts" with (
+  id: Int,
+  title: String,
+  text: String
+ ) from db;
+
+ for (p <-- posts)
+ orderby (p.id)
+  [p]
+}
+
+fun showPost(p) {
+ var title = stringToXml(p.title);
+ var text = stringToXml(p.text);
+
+ page
+  <html>
+   <head><title>{title}</title></head>
+   <body>
+    <h1>{title}</h1>
+    <p>{text}</p>
+   </body>
+  </html>
+}
+
+page
+ <html>
+  <head><title>Blog</title></head>
+  <body>
+   <h1>Blog</h1>
+    <ul>
+     {for (p <- findPosts())
+     <li><a l:href="{showPage([p])}">{stringToXml([p.title])}</a></li>}
+    </ul>
+  </body>
+ </html>
