@@ -20,11 +20,6 @@ class Post < ActiveRecord::Base
   def permalink; "/posts/#{to_param}"; end
 end
 
-# set utf-8 for outgoing
-before_attend do
-  header "Content-Type" => "text/html; charset=utf-8"
-end
-
 layout do
   <<-HTML
   <html>
