@@ -58,7 +58,6 @@ end
 get '/posts/:post*' do
     p = Post.find(params[:post])
     res = "<h1>#{p.title}</h1>"
-    res << "#{p.updated_at.strftime("%D")}"
     res << "<p>#{p.description}</p>"
     erb res     
 end
