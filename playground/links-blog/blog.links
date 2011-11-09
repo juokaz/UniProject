@@ -32,7 +32,7 @@ page
    <h1>Blog</h1>
     <ul>
      {for (p <- findPosts())
-     <li><a l:href="{showPage([p])}">{stringToXml([p.title])}</a></li>}
+     <li><a l:href="{showPost(p)}">{stringToXml(p.title)}</a></li>}
     </ul>
   </body>
  </html>
