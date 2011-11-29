@@ -2,15 +2,20 @@ require 'rubygems'
 require 'sinatra'
 require 'active_record'
 
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => "sin.db")
+ActiveRecord::Base.establish_connection(
+    :adapter  => "mysql",
+    :host     => "localhost",
+    :username => "root",
+    :password => "root",
+    :database => "blog"
+)
 
 begin
   ActiveRecord::Schema.define do
     create_table :posts do |t|
       t.string :title
-      t.string :author
-      t.text :description
-      t.timestamps
+      t.text :summary
+      t.text :text
     end
   end
 rescue ActiveRecord::StatementInvalid
@@ -40,13 +45,13 @@ end
 get '/' do
   res = "<h1>Posts</h1>"
   
-  Post.find(:all, :limit => 20, :order => "created_at DESC").each do |p|
+  Post.find(:all, :limit => 20, :order => "id DESC").each do |p|
     # hAtom
     res << <<-HTML
     <div class="post hentry">
       <h2><a href="#{p.permalink}" class="entry-title" rel="bookmark">#{p.title}</a></h2>
       <div class="content entry-content">
-        #{p.description}
+        #{p.summary}
       </div>
     </div>
     
@@ -58,6 +63,6 @@ end
 get '/posts/:post*' do
     p = Post.find(params[:post])
     res = "<h1>#{p.title}</h1>"
-    res << "<p>#{p.description}</p>"
+    res << "<p>#{p.text}</p>"
     erb res     
 end
