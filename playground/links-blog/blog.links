@@ -3,12 +3,13 @@ fun findPosts() {
  var posts = table "posts" with (
   id: Int,
   title: String,
+  summary: String,
   text: String
  ) from db;
 
  for (p <-- posts)
- orderby (p.id)
-  [p]
+  orderby (p.id)
+   [p]
 }
 
 fun showPost(p) {
